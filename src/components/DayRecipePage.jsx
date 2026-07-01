@@ -91,7 +91,7 @@ export default function DayRecipePage({
         {/* Header Section */}
         <div style={{ marginBottom: '24px' }}>
           <h1 className="text-gradient" style={{ fontSize: '2.2rem', fontWeight: 800, marginBottom: '8px' }}>
-            Halal Family Feast · Day {dayNumber}
+            DietFlow · Day {dayNumber}
           </h1>
           <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: 0 }}>
             Curated unique recipes for 5 people (pregnant wife, 3-year-old child, elderly parents, and adult male).
@@ -259,6 +259,36 @@ export default function DayRecipePage({
                 <span>Fiber: <strong style={{ color: 'var(--accent-teal)' }}>{currentMeal.macros.fiber}</strong></span>
               </div>
             )}
+          </div>
+
+          {/* Dedicated Portion Size per Person Banner */}
+          <div style={{ 
+            background: 'linear-gradient(135deg, rgba(3, 218, 198, 0.12) 0%, rgba(187, 134, 252, 0.12) 100%)', 
+            border: '1px solid rgba(3, 218, 198, 0.35)', 
+            padding: '16px 20px', 
+            borderRadius: 'var(--radius-sm)',
+            marginBottom: '28px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '16px',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ background: 'rgba(3, 218, 198, 0.2)', padding: '12px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Users size={24} color="var(--accent-teal)" />
+            </div>
+            <div style={{ flex: 1, minWidth: '250px' }}>
+              <div style={{ fontSize: '0.85rem', color: 'var(--accent-teal)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
+                🍽️ Standard Portion Size Per Person (1 of 5 Servings)
+              </div>
+              <div style={{ fontSize: '1.05rem', color: '#fff', fontWeight: 700, marginBottom: '4px' }}>
+                {activeTab === 'breakfast' && 'Approx. 300g–350g per person (1 Standard Bowl / 2 Slices Toast with Eggs & Sides)'}
+                {activeTab === 'lunch' && 'Approx. 400g–450g per person (1 Full Plate of Lentils/Curry with Rice or Flatbread)'}
+                {activeTab === 'dinner' && 'Approx. 350g–400g per person (1 Balanced Plate of Lean Protein & Roasted Vegetables)'}
+              </div>
+              <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
+                Energy per person: <strong style={{ color: '#FFD700' }}>{currentMeal.calories}</strong> · Carefully portioned and balanced for daily family nourishment.
+              </div>
+            </div>
           </div>
 
           {/* Grid: Ingredients & Instructions */}

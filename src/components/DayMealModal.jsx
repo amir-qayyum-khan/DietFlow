@@ -45,7 +45,7 @@ export default function DayMealModal({
               <Sparkles size={12} /> Day {dayNumber} Menu
             </span>
             <h2 className="text-gradient" style={{ fontSize: '1.6rem', fontWeight: 700 }}>
-              Halal Family Feast
+              DietFlow · Day {dayNumber}
             </h2>
           </div>
           <button onClick={onClose} className="btn-icon" title="Close modal">
@@ -202,6 +202,36 @@ export default function DayMealModal({
             <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Sparkles size={15} color="#FFD700" />
               <span>Halal & Health Optimized</span>
+            </div>
+          </div>
+
+          {/* Dedicated Portion Size per Person Banner */}
+          <div style={{ 
+            background: 'linear-gradient(135deg, rgba(3, 218, 198, 0.12) 0%, rgba(187, 134, 252, 0.12) 100%)', 
+            border: '1px solid rgba(3, 218, 198, 0.35)', 
+            padding: '14px 16px', 
+            borderRadius: 'var(--radius-sm)',
+            marginBottom: '24px',
+            display: 'flex',
+            alignItems: 'center',
+            gap: '12px',
+            flexWrap: 'wrap'
+          }}>
+            <div style={{ background: 'rgba(3, 218, 198, 0.2)', padding: '10px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
+              <Users size={20} color="var(--accent-teal)" />
+            </div>
+            <div style={{ flex: 1, minWidth: '220px' }}>
+              <div style={{ fontSize: '0.8rem', color: 'var(--accent-teal)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '3px' }}>
+                🍽️ Standard Portion Size Per Person (1 of 5 Servings)
+              </div>
+              <div style={{ fontSize: '0.95rem', color: '#fff', fontWeight: 700, marginBottom: '3px' }}>
+                {activeTab === 'breakfast' && 'Approx. 300g–350g per person (1 Standard Bowl / 2 Slices Toast with Eggs)'}
+                {activeTab === 'lunch' && 'Approx. 400g–450g per person (1 Full Plate of Lentils/Curry with Rice or Flatbread)'}
+                {activeTab === 'dinner' && 'Approx. 350g–400g per person (1 Balanced Plate of Lean Protein & Vegetables)'}
+              </div>
+              <div style={{ fontSize: '0.8rem', color: 'var(--text-secondary)' }}>
+                Energy per person: <strong style={{ color: '#FFD700' }}>{currentMeal.calories}</strong>
+              </div>
             </div>
           </div>
 

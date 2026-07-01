@@ -1,6 +1,6 @@
-# Halal Family Nourish 🥗 ✨
+# DietFlow — Daily Family Meal Scheduler 🥗 ✨
 
-**A Premium 31-Day Family Meal Planner & Automated Grocery Hub**
+**A World-Class 31-Day Family Food Scheduler, Portion Guide & Automated Grocery Hub**
 
 Designed with rich glassmorphic aesthetics, deep dark mode, and vibrant accents inspired by [site.swiftwf.com](https://site.swiftwf.com/). Built 100% locally with zero server dependencies for complete privacy and maximum speed.
 
@@ -9,6 +9,7 @@ Designed with rich glassmorphic aesthetics, deep dark mode, and vibrant accents 
 ## 🌟 Key Features
 
 - **31-Day Unique Menu Database (93 Total Recipes)**: Every day of the month features a unique, carefully curated Breakfast, Lunch, and Dinner tailored for a 5-person family standard.
+- **Explicit Portion Sizes Per Person**: Every single meal includes dedicated portion size guidelines per person (~300g–450g / 1 bowl or plate per person) along with exact caloric energy and macro nutrition.
 - **Exact Metric Measurements**: Clear, unambiguous units (**g, ml, tbsp, tsp**) for every ingredient so anyone in the family can prepare meals with ease.
 - **Seasonal Family Guidance**: Dedicated tips on keeping meals gentle on digestion, hydrating for warm/rainy weather, and soothing for elderly or young family members without storing or displaying private health data.
 - **Automated Grocery Hub**: Generate consolidated shopping lists for a **Single Day**, **7-Day Week**, or **Full Month**. Features an interactive checklist and **1-Click Copy to Clipboard** formatted for messaging apps.

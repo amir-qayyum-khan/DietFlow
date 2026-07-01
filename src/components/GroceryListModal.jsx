@@ -95,7 +95,7 @@ export default function GroceryListModal({
             </div>
             <div>
               <h2 className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 700, margin: 0 }}>
-                Automated Grocery Hub
+                DietFlow Grocery Hub
               </h2>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
                 Exact Metric Units for 5 People Family Meals

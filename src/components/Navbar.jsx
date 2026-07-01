@@ -42,11 +42,11 @@ export default function Navbar({
           </div>
           <div>
             <h1 className="text-gradient" style={{ fontSize: '1.5rem', fontWeight: 700, letterSpacing: '-0.5px' }}>
-              Halal Family Nourish
+              DietFlow
             </h1>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Sparkles size={13} color="var(--accent-teal)" />
-              31-Day Premium Family Meal Planner & Grocery Hub
+              Daily Family Meal Scheduler & Grocery Hub
             </p>
           </div>
         </div>
