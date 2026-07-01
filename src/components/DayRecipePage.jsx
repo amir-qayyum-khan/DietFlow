@@ -90,12 +90,9 @@ export default function DayRecipePage({
       <div className="glass-panel recipe-page-panel">
         {/* Header Section */}
         <div style={{ marginBottom: '24px' }}>
-          <h1 className="text-gradient" style={{ fontSize: '2.2rem', fontWeight: 800, marginBottom: '8px' }}>
+          <h1 className="text-gradient" style={{ fontSize: '2.2rem', fontWeight: 800, margin: 0 }}>
             DietFlow · Day {dayNumber}
           </h1>
-          <p style={{ color: 'var(--text-secondary)', fontSize: '1rem', margin: 0 }}>
-            Curated unique recipes for 5 people (pregnant wife, 3-year-old child, elderly parents, and adult male).
-          </p>
         </div>
 
         {/* Seasonal Tip Banner */}
