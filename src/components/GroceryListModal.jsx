@@ -52,8 +52,8 @@ export default function GroceryListModal({
 
   const handleCopyClipboard = () => {
     const textToCopy = [
-      `🛒 Halal Family Nourish Grocery List (${mode === 'day' ? `Day ${selectedDay}` : mode === 'week' ? `Week ${selectedWeek}` : 'Full Month'})`,
-      `For 5 People Family Standard`,
+      `🛒 Halal Nourish Grocery List (${mode === 'day' ? `Day ${selectedDay}` : mode === 'week' ? `Week ${selectedWeek}` : 'Full Month'})`,
+      `For 5 People · 5 Servings`,
       `---------------------------------------`,
       ...aggregatedList.map(item => `${checkedItems[item] ? '[x]' : '[ ]'} ${item}`)
     ].join('\n');
@@ -98,7 +98,7 @@ export default function GroceryListModal({
                 DietFlow Grocery Hub
               </h2>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', margin: 0 }}>
-                Exact Metric Units for 5 People Family Meals
+                Exact Metric Units · 5 Servings Per Meal
               </p>
             </div>
           </div>

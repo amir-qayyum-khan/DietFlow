@@ -3,6 +3,7 @@ import {
   ArrowLeft, Sun, Utensils, Moon, CheckCircle2, Heart, Clock, 
   Users, Sparkles, AlertCircle, ShoppingBag, ChefHat, Check 
 } from 'lucide-react';
+import FamilyHealthWarnings, { HEALTH_WARNINGS_ENABLED } from './FamilyHealthWarnings';
 
 export default function DayRecipePage({
   dayNumber,
@@ -34,6 +35,13 @@ export default function DayRecipePage({
       case 'dinner': return <Moon size={20} color="var(--accent-purple)" />;
       default: return null;
     }
+  };
+
+  /** Returns true when a meal has at least one non-empty health warning. */
+  const hasWarnings = (meal) => {
+    if (!meal) return false;
+    const hw = meal.healthWarnings || {};
+    return Object.values(hw).some((v) => v && v.trim());
   };
 
   return (
@@ -111,7 +119,7 @@ export default function DayRecipePage({
           }}>
             <AlertCircle size={24} color="var(--accent-teal)" style={{ flexShrink: 0 }} />
             <div>
-              <strong style={{ color: 'var(--accent-teal)', display: 'block', marginBottom: '2px' }}>Seasonal Family Note: </strong>
+              <strong style={{ color: 'var(--accent-teal)', display: 'block', marginBottom: '2px' }}>Seasonal Tip: </strong>
               {dayPlan.seasonalTip}
             </div>
           </div>
@@ -141,7 +149,23 @@ export default function DayRecipePage({
               >
                 <div className="meal-tab-title">
                   {getTabIcon(tab)}
-                  <span>{tab}</span>
+                  <span style={{ textTransform: 'capitalize' }}>{tab}</span>
+                  {HEALTH_WARNINGS_ENABLED && hasWarnings(meal) && (
+                    <span title="Health safety alerts for this meal" style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#F59E0B',
+                      borderRadius: '50%',
+                      width: '16px',
+                      height: '16px',
+                      fontSize: '10px',
+                      fontWeight: 800,
+                      color: '#000',
+                      flexShrink: 0,
+                      lineHeight: 1,
+                    }}>!</span>
+                  )}
                 </div>
                 <div className="meal-tab-meta">
                   <span style={{ color: 'var(--text-muted)' }}>{formatTime(meal.prepTime)} + {formatTime(meal.cookTime)}</span>
@@ -254,10 +278,13 @@ export default function DayRecipePage({
                 {activeTab === 'dinner' && 'Approx. 350g–400g per person (1 Balanced Plate of Lean Protein & Roasted Vegetables)'}
               </div>
               <div style={{ fontSize: '0.85rem', color: 'var(--text-secondary)' }}>
-                Energy per person: <strong style={{ color: '#FFD700' }}>{currentMeal.calories}</strong> · Carefully portioned and balanced for daily family nourishment.
+                Energy per person: <strong style={{ color: '#FFD700' }}>{currentMeal.calories}</strong> · Carefully portioned and balanced for daily nourishment.
               </div>
             </div>
           </div>
+
+          {/* Family Health Warnings */}
+          <FamilyHealthWarnings meal={currentMeal} compact={false} />
 
           {/* Grid: Ingredients & Instructions */}
           <div className="ingredients-instructions-grid">
@@ -332,7 +359,7 @@ export default function DayRecipePage({
                 <span>Step-by-Step Cooking Guide</span>
               </h3>
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px', fontStyle: 'italic' }}>
-                Follow these numbered instructions for a delicious family meal.
+                Follow these numbered instructions for a delicious meal.
               </p>
               <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
                 {currentMeal.instructions.map((step, idx) => {

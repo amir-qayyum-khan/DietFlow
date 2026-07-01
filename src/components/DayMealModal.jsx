@@ -3,6 +3,7 @@ import {
   X, Sun, Utensils, Moon, CheckCircle2, Heart, Clock, 
   Users, Sparkles, AlertCircle, ShoppingBag, ChefHat, Check 
 } from 'lucide-react';
+import FamilyHealthWarnings, { HEALTH_WARNINGS_ENABLED } from './FamilyHealthWarnings';
 
 export default function DayMealModal({
   dayNumber,
@@ -29,6 +30,13 @@ export default function DayMealModal({
       case 'dinner': return <Moon size={18} color="var(--accent-purple)" />;
       default: return null;
     }
+  };
+
+  /** Returns true when a meal has at least one non-empty health warning. */
+  const hasWarnings = (meal) => {
+    if (!meal) return false;
+    const hw = meal.healthWarnings || {};
+    return Object.values(hw).some((v) => v && v.trim());
   };
 
   return (
@@ -69,7 +77,7 @@ export default function DayMealModal({
           }}>
             <AlertCircle size={20} color="var(--accent-teal)" style={{ flexShrink: 0 }} />
             <div>
-              <strong style={{ color: 'var(--accent-teal)' }}>Seasonal Family Note: </strong>
+              <strong style={{ color: 'var(--accent-teal)' }}>Seasonal Tip: </strong>
               {dayPlan.seasonalTip}
             </div>
           </div>
@@ -100,7 +108,23 @@ export default function DayMealModal({
               >
                 <div className="meal-tab-title" style={{ fontSize: '1rem' }}>
                   {getTabIcon(tab)}
-                  <span>{tab}</span>
+                  <span style={{ textTransform: 'capitalize' }}>{tab}</span>
+                  {HEALTH_WARNINGS_ENABLED && hasWarnings(meal) && (
+                    <span title="Health safety alerts" style={{
+                      display: 'inline-flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      background: '#F59E0B',
+                      borderRadius: '50%',
+                      width: '14px',
+                      height: '14px',
+                      fontSize: '9px',
+                      fontWeight: 800,
+                      color: '#000',
+                      flexShrink: 0,
+                      lineHeight: 1,
+                    }}>!</span>
+                  )}
                 </div>
                 <div className="meal-tab-meta">
                   {tabFav && <Heart size={12} color="#ff4b72" fill="#ff4b72" />}
@@ -124,7 +148,7 @@ export default function DayMealModal({
               <div style={{ display: 'flex', gap: '8px', marginBottom: '8px', alignItems: 'center' }}>
                 <span className="badge badge-teal">{currentMeal.cuisine} Cuisine</span>
                 <span style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Users size={14} color="var(--accent-purple)" /> 5 People (Family Standard)
+                  <Users size={14} color="var(--accent-purple)" /> 5 People (5 Servings)
                 </span>
               </div>
               <h3 style={{ fontSize: '1.4rem', fontWeight: 700, color: '#fff', margin: 0 }}>
@@ -211,6 +235,9 @@ export default function DayMealModal({
               </div>
             </div>
           </div>
+
+          {/* Health Safety Warnings */}
+          <FamilyHealthWarnings meal={currentMeal} compact={true} />
 
           {/* Grid: Ingredients & Instructions */}
           <div className="ingredients-instructions-grid" style={{ gap: '24px' }}>

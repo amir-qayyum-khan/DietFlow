@@ -234,28 +234,161 @@ body {
 }
 
 .calendar-centered-container {
-  max-width: 980px;
+  max-width: 1100px;
   margin: 0 auto;
   width: 100%;
 }
 
 .grid-calendar {
   display: grid;
-  grid-template-columns: repeat(7, 1fr);
-  gap: 12px;
+  grid-template-columns: repeat(7, minmax(0, 1fr));
+  column-gap: 10px;
+  row-gap: 10px;
+}
+
+.calendar-weekday-header {
+  text-align: center;
+  padding: 6px 2px 8px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.calendar-weekday-header[data-weekend='true'] {
+  color: var(--accent-purple);
+}
+
+.calendar-blank-slot {
+  background: rgba(20, 20, 20, 0.25);
+  border-radius: 10px;
+  min-height: 96px;
+  border: 1px dashed rgba(255, 255, 255, 0.03);
 }
 
 /* Day Card styling */
 .day-card {
-  padding: 12px 14px;
-  min-height: 90px;
+  padding: 10px 10px 12px;
+  min-height: 96px;
+  min-width: 0;
+  overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap: 8px;
   cursor: pointer;
   position: relative;
   border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: var(--bg-card);
   transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.day-card-today {
+  border: 2px solid var(--accent-teal);
+  background: rgba(3, 218, 198, 0.1);
+}
+
+.day-card-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 4px;
+  min-width: 0;
+}
+
+.day-card-date-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-wrap: wrap;
+  min-width: 0;
+}
+
+.day-card-number {
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.day-card-number-today {
+  color: var(--accent-teal);
+  background: rgba(3, 218, 198, 0.2);
+}
+
+.day-card-today-badge {
+  font-size: 0.55rem;
+  padding: 2px 5px;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+}
+
+.day-card-status {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  flex-shrink: 0;
+}
+
+.day-card-complete-badge {
+  font-size: 0.6rem;
+  padding: 2px 5px;
+  white-space: nowrap;
+}
+
+.day-card-footer {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding-top: 8px;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  min-width: 0;
+}
+
+.day-card-meals {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+  min-width: 0;
+}
+
+.day-card-meal-icons {
+  display: flex;
+  align-items: center;
+  gap: 3px;
+  background: rgba(0, 0, 0, 0.3);
+  padding: 3px 6px;
+  border-radius: 12px;
+  flex-shrink: 0;
+}
+
+.day-card-meal-count {
+  font-size: 0.68rem;
+  font-weight: 500;
+  color: var(--text-muted);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.day-card-cta {
+  font-size: 0.68rem;
+  color: var(--accent-teal);
+  font-weight: 600;
+  text-align: right;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .mobile-weekday-badge {
@@ -293,8 +426,17 @@ body {
   }
 
   .day-card {
-    min-height: 75px;
+    min-height: 82px;
     padding: 14px 16px;
+  }
+
+  .day-card-today-badge {
+    font-size: 0.6rem;
+    padding: 2px 6px;
+  }
+
+  .day-card-cta {
+    font-size: 0.72rem;
   }
 
   .navbar-container {

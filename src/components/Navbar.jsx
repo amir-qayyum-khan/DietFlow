@@ -46,7 +46,7 @@ export default function Navbar({
             </h1>
             <p style={{ fontSize: '0.8rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '6px' }}>
               <Sparkles size={13} color="var(--accent-teal)" />
-              Daily Family Meal Scheduler & Grocery Hub
+              Daily Meal Planner & Grocery Hub
             </p>
           </div>
         </div>

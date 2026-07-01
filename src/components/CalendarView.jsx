@@ -32,40 +32,21 @@ export default function CalendarView({
 
   return (
     <div className="animate-fade-in" style={{ marginBottom: '30px' }}>
-      {/* Weekday Header Grid */}
-      <div className="grid-calendar desktop-only-grid" style={{ marginBottom: '10px' }}>
+      {/* Single grid keeps weekday headers aligned with day columns */}
+      <div className="grid-calendar">
         {weekDays.map((wd, index) => (
-          <div 
-            key={index} 
-            style={{ 
-              textAlign: 'center', 
-              padding: '8px', 
-              fontWeight: 700, 
-              color: index === 0 || index === 6 ? 'var(--accent-purple)' : 'var(--text-secondary)',
-              fontSize: '0.85rem',
-              textTransform: 'uppercase',
-              letterSpacing: '1px'
-            }}
+          <div
+            key={`header-${index}`}
+            className="calendar-weekday-header desktop-only-grid"
+            data-weekend={index === 0 || index === 6 ? 'true' : 'false'}
           >
             {wd}
           </div>
         ))}
-      </div>
 
-      {/* Main Calendar Grid - Compact View */}
-      <div className="grid-calendar" style={{ gap: '10px' }}>
         {/* Blank preceding slots */}
         {blanks.map(blank => (
-          <div 
-            key={`blank-${blank}`} 
-            style={{ 
-              background: 'rgba(20, 20, 20, 0.25)', 
-              borderRadius: '10px',
-              minHeight: '85px',
-              border: '1px dashed rgba(255, 255, 255, 0.03)'
-            }} 
-            className="desktop-only-blank"
-          />
+          <div key={`blank-${blank}`} className="calendar-blank-slot desktop-only-blank" />
         ))}
 
         {/* Day Cards - Compact without recipe text strings */}
@@ -86,75 +67,48 @@ export default function CalendarView({
             <div
               key={`day-${dayNum}`}
               onClick={() => onSelectDay(dayNum)}
-              className={`glass-panel glass-panel-hover day-card ${isToday ? 'current-day-pulse' : ''}`}
-              style={{
-                border: isToday ? '2px solid var(--accent-teal)' : '1px solid rgba(255, 255, 255, 0.08)',
-                background: isToday ? 'rgba(3, 218, 198, 0.1)' : 'var(--bg-card)'
-              }}
+              className={`glass-panel glass-panel-hover day-card ${isToday ? 'current-day-pulse day-card-today' : ''}`}
             >
               {/* Top Row: Day Number and Badges */}
-              <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <span style={{ 
-                    fontSize: '1.25rem', 
-                    fontWeight: 800,
-                    color: isToday ? 'var(--accent-teal)' : '#fff',
-                    background: isToday ? 'rgba(3, 218, 198, 0.2)' : 'rgba(255, 255, 255, 0.06)',
-                    width: '32px',
-                    height: '32px',
-                    borderRadius: '8px',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center'
-                  }}>
+              <div className="day-card-header">
+                <div className="day-card-date-group">
+                  <span className={`day-card-number ${isToday ? 'day-card-number-today' : ''}`}>
                     {dayNum}
                   </span>
-                  <span className="mobile-weekday-badge badge badge-purple" style={{ fontSize: '0.65rem', padding: '2px 8px' }}>
+                  <span className="mobile-weekday-badge badge badge-purple">
                     {weekdayName}
                   </span>
                   {isToday && (
-                    <span className="badge badge-teal" style={{ fontSize: '0.6rem', padding: '2px 6px', letterSpacing: '0.5px' }}>
+                    <span className="badge badge-teal day-card-today-badge">
                       <Sparkles size={10} /> TODAY
                     </span>
                   )}
                 </div>
 
                 {/* Status indicators */}
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div className="day-card-status">
                   {hasFav && (
                     <Heart size={14} color="#ff4b72" fill="#ff4b72" title="Contains favorite recipes" />
                   )}
                   {completedCount > 0 && (
-                    <span className="badge badge-purple" style={{ fontSize: '0.65rem', padding: '2px 6px' }}>
+                    <span className="badge badge-purple day-card-complete-badge">
                       <CheckCircle2 size={10} /> {completedCount}/3
                     </span>
                   )}
                 </div>
               </div>
 
-              {/* Bottom Row: 3 Tabs / Meals Indicator */}
-              <div style={{ 
-                display: 'flex', 
-                alignItems: 'center', 
-                justifyContent: 'space-between', 
-                marginTop: '10px',
-                paddingTop: '8px',
-                borderTop: '1px solid rgba(255, 255, 255, 0.05)',
-                fontSize: '0.75rem',
-                color: 'var(--text-secondary)'
-              }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: '3px', background: 'rgba(0,0,0,0.3)', padding: '3px 6px', borderRadius: '12px' }}>
-                    <Sun size={12} color="#FFD700" title="Breakfast" />
-                    <Utensils size={12} color="var(--accent-teal)" title="Lunch" />
-                    <Moon size={12} color="var(--accent-purple)" title="Dinner" />
+              {/* Footer: meal icons + view link stacked to avoid overflow in narrow columns */}
+              <div className="day-card-footer">
+                <div className="day-card-meals">
+                  <div className="day-card-meal-icons" title="Breakfast, Lunch, Dinner">
+                    <Sun size={12} color="#FFD700" />
+                    <Utensils size={12} color="var(--accent-teal)" />
+                    <Moon size={12} color="var(--accent-purple)" />
                   </div>
-                  <span style={{ fontSize: '0.72rem', fontWeight: 500, color: 'var(--text-muted)' }}>3 Meals</span>
+                  <span className="day-card-meal-count">3 Meals</span>
                 </div>
-
-                <span style={{ fontSize: '0.7rem', color: 'var(--accent-teal)', fontWeight: 600 }}>
-                  View Menu →
-                </span>
+                <span className="day-card-cta">View Menu →</span>
               </div>
             </div>
           );
