@@ -33,7 +33,7 @@ export default function CalendarView({
   return (
     <div className="animate-fade-in" style={{ marginBottom: '30px' }}>
       {/* Weekday Header Grid */}
-      <div className="grid-calendar" style={{ marginBottom: '10px' }}>
+      <div className="grid-calendar desktop-only-grid" style={{ marginBottom: '10px' }}>
         {weekDays.map((wd, index) => (
           <div 
             key={index} 
@@ -72,6 +72,8 @@ export default function CalendarView({
         {days.map(dayNum => {
           const dayPlan = recipesData[dayNum - 1] || recipesData[0];
           const isToday = isCurrentMonthYear && dayNum === todayDateNumber;
+          const weekdayIndex = (firstDayOfWeek + dayNum - 1) % 7;
+          const weekdayName = weekDays[weekdayIndex];
 
           // Check completion and favorite counts for this day
           const bId = dayPlan?.breakfast?.id;
@@ -84,37 +86,31 @@ export default function CalendarView({
             <div
               key={`day-${dayNum}`}
               onClick={() => onSelectDay(dayNum)}
-              className={`glass-panel glass-panel-hover ${isToday ? 'current-day-pulse' : ''}`}
+              className={`glass-panel glass-panel-hover day-card ${isToday ? 'current-day-pulse' : ''}`}
               style={{
-                padding: '12px 14px',
-                minHeight: '85px',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'space-between',
-                cursor: 'pointer',
-                position: 'relative',
-                borderRadius: '12px',
                 border: isToday ? '2px solid var(--accent-teal)' : '1px solid rgba(255, 255, 255, 0.08)',
-                background: isToday ? 'rgba(3, 218, 198, 0.1)' : 'var(--bg-card)',
-                transition: 'all 0.2s ease'
+                background: isToday ? 'rgba(3, 218, 198, 0.1)' : 'var(--bg-card)'
               }}
             >
               {/* Top Row: Day Number and Badges */}
               <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
                   <span style={{ 
-                    fontSize: '1.3rem', 
+                    fontSize: '1.25rem', 
                     fontWeight: 800,
                     color: isToday ? 'var(--accent-teal)' : '#fff',
                     background: isToday ? 'rgba(3, 218, 198, 0.2)' : 'rgba(255, 255, 255, 0.06)',
-                    width: '34px',
-                    height: '34px',
+                    width: '32px',
+                    height: '32px',
                     borderRadius: '8px',
                     display: 'flex',
                     alignItems: 'center',
                     justifyContent: 'center'
                   }}>
                     {dayNum}
+                  </span>
+                  <span className="mobile-weekday-badge badge badge-purple" style={{ fontSize: '0.65rem', padding: '2px 8px' }}>
+                    {weekdayName}
                   </span>
                   {isToday && (
                     <span className="badge badge-teal" style={{ fontSize: '0.6rem', padding: '2px 6px', letterSpacing: '0.5px' }}>

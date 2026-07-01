@@ -230,7 +230,13 @@ body {
 .app-container {
   max-width: 1400px;
   margin: 0 auto;
-  padding: 20px;
+  padding: 24px 20px;
+}
+
+.calendar-centered-container {
+  max-width: 980px;
+  margin: 0 auto;
+  width: 100%;
 }
 
 .grid-calendar {
@@ -239,10 +245,92 @@ body {
   gap: 12px;
 }
 
+/* Day Card styling */
+.day-card {
+  padding: 12px 14px;
+  min-height: 90px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  cursor: pointer;
+  position: relative;
+  border-radius: var(--radius-md);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.mobile-weekday-badge {
+  display: none !important;
+}
+
+.desktop-only-blank {
+  display: block;
+}
+
 @media (max-width: 768px) {
+  .app-container {
+    padding: 14px 12px;
+  }
+  
+  .calendar-centered-container {
+    max-width: 100%;
+  }
+
   .grid-calendar {
     grid-template-columns: repeat(1, 1fr);
-    gap: 16px;
+    gap: 12px;
+  }
+  
+  .desktop-only-grid {
+    display: none !important;
+  }
+  
+  .desktop-only-blank {
+    display: none !important;
+  }
+  
+  .mobile-weekday-badge {
+    display: inline-flex !important;
+  }
+
+  .day-card {
+    min-height: 75px;
+    padding: 14px 16px;
+  }
+
+  .navbar-container {
+    padding: 14px 16px !important;
+    gap: 12px !important;
+  }
+  
+  .navbar-actions {
+    width: 100%;
+    display: grid !important;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px !important;
+  }
+  
+  .navbar-actions button {
+    width: 100%;
+    justify-content: center;
+    padding: 10px 8px !important;
+    font-size: 0.82rem !important;
+  }
+  
+  .month-selector-subtle {
+    width: 100%;
+    justify-content: space-between !important;
+    padding: 8px 12px !important;
+  }
+
+  .day-recipe-topbar {
+    flex-direction: column;
+    align-items: stretch !important;
+    gap: 12px !important;
+  }
+  
+  .day-recipe-topbar button, .day-recipe-topbar > div {
+    width: 100%;
+    justify-content: center !important;
   }
 }
 
@@ -272,8 +360,8 @@ body {
   top: -1px;
 }
 
-/* Modal Overlay */
-.modal-overlay {
+/* Modal Overlay & Backdrop */
+.modal-overlay, .modal-backdrop {
   position: fixed;
   top: 0;
   left: 0;
@@ -299,4 +387,188 @@ body {
   overflow-y: auto;
   box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8);
   position: relative;
+}
+
+/* Recipe Page Responsive Container */
+.recipe-page-panel {
+  padding: 32px;
+  border: 1px solid rgba(187, 134, 252, 0.25);
+}
+
+.recipe-active-card {
+  background: rgba(255, 255, 255, 0.02);
+  padding: 28px;
+  border-radius: var(--radius-md);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+/* Meal Nav Tabs */
+.meal-nav-tabs-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.35);
+  padding: 8px;
+  border-radius: var(--radius-md);
+  margin-bottom: 32px;
+}
+
+.meal-tab-btn {
+  padding: 16px 12px;
+  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.meal-tab-title {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 1.1rem;
+  text-transform: capitalize;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+.meal-tab-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.8rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
+}
+
+/* Grid for Ingredients & Instructions */
+.ingredients-instructions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+  gap: 32px;
+}
+
+/* Portion Size Banner */
+.portion-size-banner {
+  background: linear-gradient(135deg, rgba(3, 218, 198, 0.12) 0%, rgba(187, 134, 252, 0.12) 100%);
+  border: 1px solid rgba(3, 218, 198, 0.35);
+  padding: 16px 20px;
+  border-radius: var(--radius-sm);
+  margin-bottom: 28px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  flex-wrap: wrap;
+}
+
+.portion-size-content {
+  flex: 1;
+  min-width: min(100%, 250px);
+}
+
+/* Step-by-Step Cooking Cards */
+.step-card {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 14px 16px;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.04);
+  transition: all 0.2s ease;
+}
+.step-card:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(187, 134, 252, 0.2);
+  transform: translateX(4px);
+}
+
+.step-number-badge {
+  background: linear-gradient(135deg, var(--accent-purple) 0%, #8a41d8 100%);
+  color: #000;
+  font-weight: 800;
+  font-size: 0.85rem;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 2px 8px rgba(187, 134, 252, 0.3);
+  margin-top: 2px;
+}
+
+.step-text {
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-primary);
+  font-weight: 400;
+}
+
+/* Mobile Responsiveness Improvements */
+@media (max-width: 768px) {
+  .recipe-page-panel {
+    padding: 16px !important;
+  }
+  
+  .recipe-active-card {
+    padding: 16px !important;
+  }
+
+  .meal-nav-tabs-grid {
+    gap: 6px !important;
+    padding: 6px !important;
+  }
+
+  .meal-tab-btn {
+    padding: 12px 4px !important;
+    gap: 4px !important;
+    border-radius: 8px !important;
+  }
+
+  .meal-tab-title {
+    font-size: 0.88rem !important;
+    gap: 4px !important;
+  }
+
+  .meal-tab-meta {
+    font-size: 0.72rem !important;
+  }
+
+  .ingredients-instructions-grid {
+    grid-template-columns: 1fr !important;
+    gap: 24px !important;
+  }
+
+  .portion-size-banner {
+    padding: 14px !important;
+    gap: 12px !important;
+    align-items: flex-start !important;
+  }
+
+  .step-card {
+    padding: 12px !important;
+    gap: 10px !important;
+  }
+
+  .modal-overlay, .modal-backdrop {
+    padding: 10px !important;
+    align-items: flex-end !important;
+  }
+
+  .modal-content {
+    max-height: 88vh !important;
+    border-radius: var(--radius-lg) var(--radius-lg) 0 0 !important;
+    padding: 16px !important;
+  }
 }

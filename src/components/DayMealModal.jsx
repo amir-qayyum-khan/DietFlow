@@ -76,15 +76,10 @@ export default function DayMealModal({
         )}
 
         {/* Meal Navigation Tabs */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: '1fr 1fr 1fr', 
-          gap: '8px', 
-          background: 'rgba(0, 0, 0, 0.3)', 
-          padding: '6px', 
-          borderRadius: 'var(--radius-md)',
-          marginBottom: '24px'
-        }}>
+        <div 
+          className="meal-nav-tabs-grid"
+          style={{ marginBottom: '24px' }}
+        >
           {['breakfast', 'lunch', 'dinner'].map((tab) => {
             const meal = dayPlan[tab];
             const tabCompleted = !!completedMeals[meal.id];
@@ -95,27 +90,19 @@ export default function DayMealModal({
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
+                className="meal-tab-btn"
                 style={{
-                  padding: '12px',
-                  borderRadius: '10px',
                   background: isActive ? 'linear-gradient(135deg, rgba(187, 134, 252, 0.2) 0%, rgba(3, 218, 198, 0.15) 100%)' : 'transparent',
                   border: isActive ? '1px solid var(--accent-purple)' : '1px solid transparent',
                   color: isActive ? '#fff' : 'var(--text-secondary)',
-                  fontWeight: isActive ? 600 : 400,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '6px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  position: 'relative'
+                  fontWeight: isActive ? 600 : 400
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px' }}>
+                <div className="meal-tab-title" style={{ fontSize: '1rem' }}>
                   {getTabIcon(tab)}
-                  <span style={{ textTransform: 'capitalize' }}>{tab}</span>
+                  <span>{tab}</span>
                 </div>
-                <div style={{ display: 'flex', gap: '4px' }}>
+                <div className="meal-tab-meta">
                   {tabFav && <Heart size={12} color="#ff4b72" fill="#ff4b72" />}
                   {tabCompleted && <CheckCircle2 size={12} color="var(--accent-teal)" />}
                 </div>
@@ -206,21 +193,11 @@ export default function DayMealModal({
           </div>
 
           {/* Dedicated Portion Size per Person Banner */}
-          <div style={{ 
-            background: 'linear-gradient(135deg, rgba(3, 218, 198, 0.12) 0%, rgba(187, 134, 252, 0.12) 100%)', 
-            border: '1px solid rgba(3, 218, 198, 0.35)', 
-            padding: '14px 16px', 
-            borderRadius: 'var(--radius-sm)',
-            marginBottom: '24px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '12px',
-            flexWrap: 'wrap'
-          }}>
+          <div className="portion-size-banner">
             <div style={{ background: 'rgba(3, 218, 198, 0.2)', padding: '10px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <Users size={20} color="var(--accent-teal)" />
             </div>
-            <div style={{ flex: 1, minWidth: '220px' }}>
+            <div className="portion-size-content">
               <div style={{ fontSize: '0.8rem', color: 'var(--accent-teal)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '3px' }}>
                 🍽️ Standard Portion Size Per Person (1 of 5 Servings)
               </div>
@@ -236,7 +213,7 @@ export default function DayMealModal({
           </div>
 
           {/* Grid: Ingredients & Instructions */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(280px, 1fr))', gap: '24px' }}>
+          <div className="ingredients-instructions-grid" style={{ gap: '24px' }}>
             {/* Ingredients */}
             <div>
               <h4 style={{ 
@@ -303,21 +280,17 @@ export default function DayMealModal({
                 <ChefHat size={18} />
                 <span>Step-by-Step Cooking Instructions</span>
               </h4>
-              <ol style={{ paddingLeft: '20px', margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {currentMeal.instructions.map((step, idx) => (
-                  <li 
-                    key={idx}
-                    style={{ 
-                      fontSize: '0.9rem', 
-                      lineHeight: '1.5',
-                      color: 'var(--text-primary)',
-                      paddingLeft: '4px'
-                    }}
-                  >
-                    {step}
-                  </li>
-                ))}
-              </ol>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                {currentMeal.instructions.map((step, idx) => {
+                  const cleanStep = step.replace(/^\d+[\.\)\-\s]+/, '').trim();
+                  return (
+                    <div key={idx} className="step-card" style={{ padding: '10px 12px' }}>
+                      <div className="step-number-badge" style={{ width: '24px', height: '24px', fontSize: '0.8rem' }}>{idx + 1}</div>
+                      <div className="step-text" style={{ fontSize: '0.9rem' }}>{cleanStep}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>

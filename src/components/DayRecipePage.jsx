@@ -39,7 +39,7 @@ export default function DayRecipePage({
   return (
     <div className="animate-fade-in" style={{ paddingBottom: '60px' }}>
       {/* Top Bar with Prominent Back Button */}
-      <div style={{ 
+      <div className="day-recipe-topbar" style={{ 
         display: 'flex', 
         alignItems: 'center', 
         justifyContent: 'space-between', 
@@ -87,7 +87,7 @@ export default function DayRecipePage({
       </div>
 
       {/* Main Page Content Container */}
-      <div className="glass-panel" style={{ padding: '32px', border: '1px solid rgba(187, 134, 252, 0.25)' }}>
+      <div className="glass-panel recipe-page-panel">
         {/* Header Section */}
         <div style={{ marginBottom: '24px' }}>
           <h1 className="text-gradient" style={{ fontSize: '2.2rem', fontWeight: 800, marginBottom: '8px' }}>
@@ -121,47 +121,33 @@ export default function DayRecipePage({
         )}
 
         {/* 3 Prominent Meal Navigation Tabs */}
-        <div style={{ 
-          display: 'grid', 
-          gridTemplateColumns: 'repeat(3, 1fr)', 
-          gap: '12px', 
-          background: 'rgba(0, 0, 0, 0.35)', 
-          padding: '8px', 
-          borderRadius: 'var(--radius-md)',
-          marginBottom: '32px'
-        }}>
+        <div className="meal-nav-tabs-grid">
           {['breakfast', 'lunch', 'dinner'].map((tab) => {
             const meal = dayPlan[tab];
             const tabCompleted = !!completedMeals[meal.id];
             const tabFav = !!favorites[meal.id];
             const isActive = activeTab === tab;
+            
+            const formatTime = (t) => t ? t.replace(/mins?/gi, 'm').trim() : '';
 
             return (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
+                className="meal-tab-btn"
                 style={{
-                  padding: '16px 12px',
-                  borderRadius: '12px',
                   background: isActive ? 'linear-gradient(135deg, rgba(187, 134, 252, 0.25) 0%, rgba(3, 218, 198, 0.2) 100%)' : 'transparent',
                   border: isActive ? '2px solid var(--accent-purple)' : '2px solid transparent',
                   color: isActive ? '#fff' : 'var(--text-secondary)',
-                  fontWeight: isActive ? 700 : 500,
-                  display: 'flex',
-                  flexDirection: 'column',
-                  alignItems: 'center',
-                  gap: '8px',
-                  cursor: 'pointer',
-                  transition: 'all 0.2s ease',
-                  position: 'relative'
+                  fontWeight: isActive ? 700 : 500
                 }}
               >
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px', fontSize: '1.1rem' }}>
+                <div className="meal-tab-title">
                   {getTabIcon(tab)}
-                  <span style={{ textTransform: 'capitalize' }}>{tab}</span>
+                  <span>{tab}</span>
                 </div>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '0.8rem' }}>
-                  <span style={{ color: 'var(--text-muted)' }}>{meal.prepTime} + {meal.cookTime}</span>
+                <div className="meal-tab-meta">
+                  <span style={{ color: 'var(--text-muted)' }}>{formatTime(meal.prepTime)} + {formatTime(meal.cookTime)}</span>
                   {tabFav && <Heart size={14} color="#ff4b72" fill="#ff4b72" title="Favorited" />}
                   {tabCompleted && <CheckCircle2 size={14} color="var(--accent-teal)" title="Cooked" />}
                 </div>
@@ -171,12 +157,7 @@ export default function DayRecipePage({
         </div>
 
         {/* Active Meal Details Section */}
-        <div className="animate-fade-in" style={{ 
-          background: 'rgba(255, 255, 255, 0.02)', 
-          padding: '28px', 
-          borderRadius: 'var(--radius-md)',
-          border: '1px solid rgba(255, 255, 255, 0.06)'
-        }}>
+        <div className="animate-fade-in recipe-active-card">
           {/* Meal Title & Action Buttons */}
           <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', flexWrap: 'wrap', gap: '16px', marginBottom: '20px' }}>
             <div>
@@ -262,21 +243,11 @@ export default function DayRecipePage({
           </div>
 
           {/* Dedicated Portion Size per Person Banner */}
-          <div style={{ 
-            background: 'linear-gradient(135deg, rgba(3, 218, 198, 0.12) 0%, rgba(187, 134, 252, 0.12) 100%)', 
-            border: '1px solid rgba(3, 218, 198, 0.35)', 
-            padding: '16px 20px', 
-            borderRadius: 'var(--radius-sm)',
-            marginBottom: '28px',
-            display: 'flex',
-            alignItems: 'center',
-            gap: '16px',
-            flexWrap: 'wrap'
-          }}>
+          <div className="portion-size-banner">
             <div style={{ background: 'rgba(3, 218, 198, 0.2)', padding: '12px', borderRadius: '50%', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0 }}>
               <Users size={24} color="var(--accent-teal)" />
             </div>
-            <div style={{ flex: 1, minWidth: '250px' }}>
+            <div className="portion-size-content">
               <div style={{ fontSize: '0.85rem', color: 'var(--accent-teal)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
                 🍽️ Standard Portion Size Per Person (1 of 5 Servings)
               </div>
@@ -292,7 +263,7 @@ export default function DayRecipePage({
           </div>
 
           {/* Grid: Ingredients & Instructions */}
-          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(320px, 1fr))', gap: '32px' }}>
+          <div className="ingredients-instructions-grid">
             {/* Ingredients Section */}
             <div>
               <h3 style={{ 
@@ -366,22 +337,17 @@ export default function DayRecipePage({
               <p style={{ fontSize: '0.8rem', color: 'var(--text-muted)', marginBottom: '14px', fontStyle: 'italic' }}>
                 Follow these numbered instructions for a delicious family meal.
               </p>
-              <ol style={{ paddingLeft: '24px', margin: 0, display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                {currentMeal.instructions.map((step, idx) => (
-                  <li 
-                    key={idx}
-                    style={{ 
-                      fontSize: '0.95rem', 
-                      lineHeight: '1.6',
-                      color: 'var(--text-primary)',
-                      paddingLeft: '6px',
-                      fontWeight: 400
-                    }}
-                  >
-                    {step}
-                  </li>
-                ))}
-              </ol>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
+                {currentMeal.instructions.map((step, idx) => {
+                  const cleanStep = step.replace(/^\d+[\.\)\-\s]+/, '').trim();
+                  return (
+                    <div key={idx} className="step-card">
+                      <div className="step-number-badge">{idx + 1}</div>
+                      <div className="step-text">{cleanStep}</div>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
           </div>
         </div>
@@ -414,7 +380,7 @@ export default function DayRecipePage({
             }}
           >
             <ArrowLeft size={18} color="var(--accent-purple)" />
-            <span>← Back to Calendar Grid</span>
+            <span>Back to Calendar Grid</span>
           </button>
 
           <button 

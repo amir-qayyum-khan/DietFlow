@@ -13,8 +13,6 @@ export default function GroceryListModal({
   const [checkedItems, setCheckedItems] = useState({});
   const [copied, setCopied] = useState(false);
 
-  if (!isOpen) return null;
-
   // Compute ingredients based on mode
   const aggregatedList = useMemo(() => {
     let daysToInclude = [];
@@ -71,6 +69,8 @@ export default function GroceryListModal({
   };
 
   const checkedCount = Object.values(checkedItems).filter(Boolean).length;
+
+  if (!isOpen) return null;
 
   return (
     <div className="modal-backdrop" onClick={onClose}>

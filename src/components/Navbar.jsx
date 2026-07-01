@@ -18,7 +18,7 @@ export default function Navbar({
   const year = currentDate.getFullYear();
 
   return (
-    <header className="glass-panel" style={{ padding: '16px 24px', marginBottom: '24px' }}>
+    <header className="glass-panel navbar-container" style={{ padding: '16px 24px', marginBottom: '24px' }}>
       <div style={{ 
         display: 'flex', 
         alignItems: 'center', 
@@ -52,7 +52,7 @@ export default function Navbar({
         </div>
 
         {/* Month Selector Navigation */}
-        <div className="glass-panel-subtle" style={{ 
+        <div className="glass-panel-subtle month-selector-subtle" style={{ 
           display: 'flex', 
           alignItems: 'center', 
           gap: '12px', 
@@ -86,7 +86,7 @@ export default function Navbar({
         </div>
 
         {/* Quick Actions */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
+        <div className="navbar-actions" style={{ display: 'flex', alignItems: 'center', gap: '12px' }}>
           <button 
             onClick={onToggleSearch}
             className={isSearchOpen ? "btn-primary" : "btn-secondary"}

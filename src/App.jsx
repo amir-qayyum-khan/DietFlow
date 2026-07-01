@@ -5,7 +5,6 @@ import DayRecipePage from './components/DayRecipePage';
 import GroceryListModal from './components/GroceryListModal';
 import RecipeSearch from './components/RecipeSearch';
 import { recipesData } from './data/recipesData';
-import { Sparkles, ShieldCheck, Heart, CheckCircle2, ShoppingBag, Utensils } from 'lucide-react';
 
 export default function App() {
   const [currentDate, setCurrentDate] = useState(() => {
@@ -111,12 +110,9 @@ export default function App() {
     return () => window.removeEventListener('popstate', handlePopState);
   }, []);
 
-  // Calculate statistics
-  const totalCompleted = Object.values(completedMeals).filter(Boolean).length;
-  const totalFavorites = Object.values(favorites).filter(Boolean).length;
 
   return (
-    <div className="container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
+    <div className="app-container" style={{ minHeight: '100vh', display: 'flex', flexDirection: 'column' }}>
       {/* Navigation Bar */}
       <Navbar
         currentDate={currentDate}
@@ -152,36 +148,7 @@ export default function App() {
             }}
           />
         ) : (
-          <>
-            {/* Hero Stats & Info Bar */}
-            <div className="glass-panel" style={{ padding: '16px 24px', marginBottom: '24px', display: 'flex', alignItems: 'center', justifyContent: 'space-between', flexWrap: 'wrap', gap: '16px', background: 'linear-gradient(90deg, rgba(30, 30, 30, 0.9) 0%, rgba(18, 18, 18, 0.95) 100%)' }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: '20px', flexWrap: 'wrap' }}>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ background: 'rgba(3, 218, 198, 0.15)', padding: '8px', borderRadius: '8px' }}>
-                    <CheckCircle2 size={18} color="var(--accent-teal)" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>{totalCompleted} Meals</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Cooked & Enjoyed</div>
-                  </div>
-                </div>
-
-                <div style={{ display: 'flex', alignItems: 'center', gap: '8px' }}>
-                  <div style={{ background: 'rgba(255, 75, 114, 0.15)', padding: '8px', borderRadius: '8px' }}>
-                    <Heart size={18} color="#ff4b72" />
-                  </div>
-                  <div>
-                    <div style={{ fontSize: '1.1rem', fontWeight: 700, color: '#fff' }}>{totalFavorites} Recipes</div>
-                    <div style={{ fontSize: '0.75rem', color: 'var(--text-secondary)' }}>Saved in Favorites</div>
-                  </div>
-                </div>
-              </div>
-
-              <div style={{ display: 'flex', alignItems: 'center', gap: '10px', fontSize: '0.8rem', color: 'var(--text-secondary)', background: 'rgba(0,0,0,0.3)', padding: '8px 14px', borderRadius: '20px', border: '1px solid rgba(255,255,255,0.05)' }}>
-                <ShieldCheck size={16} color="var(--accent-purple)" />
-                <span>100% Private & Local Storage · Exact Metric Units (g, ml, tbsp, tsp)</span>
-              </div>
-            </div>
+          <div className="calendar-centered-container">
 
             {/* Main Calendar View */}
             <CalendarView
@@ -191,7 +158,7 @@ export default function App() {
               completedMeals={completedMeals}
               favorites={favorites}
             />
-          </>
+          </div>
         )}
       </main>
 
