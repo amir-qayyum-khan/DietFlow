@@ -4,6 +4,13 @@ import {
   Users, Sparkles, AlertCircle, ShoppingBag, ChefHat, Check 
 } from 'lucide-react';
 import FamilyHealthWarnings, { HEALTH_WARNINGS_ENABLED } from './FamilyHealthWarnings';
+import {
+  scaleIngredients,
+  clampServings,
+  BASE_SERVINGS,
+  MIN_SERVINGS,
+  MAX_SERVINGS,
+} from '../utils/scaleIngredients';
 
 export default function DayRecipePage({
   dayNumber,
@@ -16,17 +23,42 @@ export default function DayRecipePage({
   onOpenGroceryForDay
 }) {
   const [activeTab, setActiveTab] = useState('breakfast'); // 'breakfast' | 'lunch' | 'dinner'
+  const [servings, setServings] = useState(BASE_SERVINGS);
 
   // Scroll to top when page opens or tab changes
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [dayNumber]);
 
+  // Each meal starts from the recipe baseline (5 servings)
+  useEffect(() => {
+    setServings(BASE_SERVINGS);
+  }, [dayNumber, activeTab]);
+
   if (!dayPlan) return null;
 
   const currentMeal = dayPlan[activeTab];
   const isCompleted = !!completedMeals[currentMeal.id];
   const isFavorite = !!favorites[currentMeal.id];
+  const effectiveServings = typeof servings === 'number' ? servings : BASE_SERVINGS;
+  const scaledIngredients = scaleIngredients(currentMeal.ingredients, effectiveServings);
+
+  /**
+   * Updates servings from the number input; empty field temporarily keeps last valid value on blur via clamp.
+   * @param {React.ChangeEvent<HTMLInputElement>} e
+   */
+  const handleServingsChange = (e) => {
+    const raw = e.target.value;
+    if (raw === '') {
+      setServings('');
+      return;
+    }
+    setServings(clampServings(raw));
+  };
+
+  const handleServingsBlur = () => {
+    setServings((prev) => clampServings(prev === '' ? BASE_SERVINGS : prev));
+  };
 
   const getTabIcon = (tab) => {
     switch(tab) {
@@ -184,9 +216,42 @@ export default function DayRecipePage({
             <div>
               <div style={{ display: 'flex', gap: '8px', marginBottom: '10px', alignItems: 'center', flexWrap: 'wrap' }}>
                 <span className="badge badge-teal" style={{ fontSize: '0.85rem' }}>{currentMeal.cuisine} Cuisine</span>
-                <span style={{ fontSize: '0.85rem', color: 'var(--text-secondary)', display: 'flex', alignItems: 'center', gap: '4px' }}>
-                  <Users size={16} color="var(--accent-purple)" /> 5 People Serving
-                </span>
+                <label
+                  style={{
+                    fontSize: '0.85rem',
+                    color: 'var(--text-secondary)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '6px',
+                    background: 'rgba(187, 134, 252, 0.12)',
+                    border: '1px solid rgba(187, 134, 252, 0.35)',
+                    borderRadius: '8px',
+                    padding: '4px 10px',
+                  }}
+                >
+                  <Users size={16} color="var(--accent-purple)" />
+                  <span>Number of servings</span>
+                  <input
+                    type="number"
+                    min={MIN_SERVINGS}
+                    max={MAX_SERVINGS}
+                    value={servings}
+                    onChange={handleServingsChange}
+                    onBlur={handleServingsBlur}
+                    aria-label="Number of servings"
+                    style={{
+                      width: '56px',
+                      padding: '4px 6px',
+                      borderRadius: '6px',
+                      border: '1px solid var(--border-color)',
+                      background: 'rgba(0, 0, 0, 0.35)',
+                      color: '#fff',
+                      fontWeight: 700,
+                      fontSize: '0.9rem',
+                      textAlign: 'center',
+                    }}
+                  />
+                </label>
                 {currentMeal.calories && (
                   <span style={{ fontSize: '0.85rem', color: '#FFD700', background: 'rgba(255,215,0,0.1)', padding: '2px 8px', borderRadius: '4px' }}>
                     ⚡ {currentMeal.calories}
@@ -270,7 +335,7 @@ export default function DayRecipePage({
             </div>
             <div className="portion-size-content">
               <div style={{ fontSize: '0.85rem', color: 'var(--accent-teal)', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.5px', marginBottom: '4px' }}>
-                🍽️ Standard Portion Size Per Person (1 of 5 Servings)
+                🍽️ Standard Portion Size Per Person (1 of {effectiveServings} Servings)
               </div>
               <div style={{ fontSize: '1.05rem', color: '#fff', fontWeight: 700, marginBottom: '4px' }}>
                 {activeTab === 'breakfast' && 'Approx. 300g–350g per person (1 Standard Bowl / 2 Slices Toast with Eggs & Sides)'}
@@ -308,7 +373,7 @@ export default function DayRecipePage({
                 Standardized in grams (g), ml, tablespoons (tbsp), and teaspoons (tsp).
               </p>
               <ul style={{ listStyle: 'none', padding: 0, margin: 0, display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                {currentMeal.ingredients.map((ing, idx) => (
+                {scaledIngredients.map((ing, idx) => (
                   <li 
                     key={idx}
                     style={{ 
